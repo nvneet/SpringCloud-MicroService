@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -33,6 +34,8 @@ public class WebSecurity {
         System.out.println("local machine ip: " + localHost.getHostAddress());
         System.out.println("env " + "hasIpAddress('" + env.getProperty("gateway.ip") + "')");
 
+        AuthenticationManagerBuilder authenticationManagerBuilder= httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        
 		httpSecurity.csrf().disable();
 		
 		httpSecurity.authorizeHttpRequests()
@@ -42,6 +45,7 @@ public class WebSecurity {
 //		.requestMatchers("/h2-console")
 		.requestMatchers(new AntPathRequestMatcher("/h2-console/*")).permitAll()
 		.and()
+		.addFilter(new AuthenticationFilter(authenticationManager))
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 		httpSecurity.headers().frameOptions().disable();
