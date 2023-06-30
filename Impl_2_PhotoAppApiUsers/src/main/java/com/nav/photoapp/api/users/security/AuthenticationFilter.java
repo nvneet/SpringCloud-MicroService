@@ -3,6 +3,7 @@ package com.nav.photoapp.api.users.security;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -11,6 +12,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nav.photoapp.api.users.ui.model.LoginRequestModel;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -39,11 +42,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 		}
 	}
 
-//	@Override
-//	protected void successfulAuthentication(HttpServletRequest req, 
-//			HttpServletResponse res, FilterChain chain,
-//			Authentication auth) throws IOException, ServletException {
-//
-//	}
+	@Override
+	protected void successfulAuthentication(HttpServletRequest req, 
+			HttpServletResponse res, FilterChain chain,
+			Authentication auth) throws IOException, ServletException {
+
+	}
 
 }
