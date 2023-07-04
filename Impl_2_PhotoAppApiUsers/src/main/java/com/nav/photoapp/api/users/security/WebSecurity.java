@@ -47,6 +47,10 @@ public class WebSecurity {
         
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         
+        // Adding processing url for authentication filter
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(iUserService, env, authenticationManager);
+        authenticationFilter.setFilterProcessesUrl("/users/login");
+        
 		httpSecurity.csrf().disable();
 		
 		httpSecurity.authorizeHttpRequests()
@@ -56,7 +60,7 @@ public class WebSecurity {
 //		.requestMatchers("/h2-console")
 		.requestMatchers(new AntPathRequestMatcher("/h2-console/*")).permitAll()
 		.and()
-		.addFilter(new AuthenticationFilter(iUserService, env, authenticationManager))
+		.addFilter(authenticationFilter)
 		.authenticationManager(authenticationManager)
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
