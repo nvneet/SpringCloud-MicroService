@@ -49,7 +49,7 @@ public class WebSecurity {
         
         // Adding processing url for authentication filter
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(iUserService, env, authenticationManager);
-        authenticationFilter.setFilterProcessesUrl("/users/login");
+        authenticationFilter.setFilterProcessesUrl(env.getProperty("login.url.path"));
         
 		httpSecurity.csrf().disable();
 		
